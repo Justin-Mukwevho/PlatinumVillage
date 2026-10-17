@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Platinum Village Secondary School - Portal & Website</title>
+    <title>Platinum Village Primary School - Interactive Prototype</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -21,166 +21,218 @@
             }
         }
     </script>
-    <!-- FontAwesome for Icons -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-brandGold text-brandDark text-xs md:text-sm font-semibold py-2 px-4 text-center">
-        <i class="fa-solid fa-bullhorn mr-2"></i> Early close this Friday: Term handover assembly at 12:00. All learners to be collected by 13:00.
+    <!-- ================= PERSISTENT DEMO & BRANDING BAR ================= -->
+    <div class="bg-slate-950 text-white border-b border-slate-800 px-4 py-2.5 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-3">
+            <!-- Agency Claim Badge -->
+            <div class="flex items-center space-x-2 text-xs">
+                <span class="bg-brandGold text-brandDark font-extrabold px-2 py-0.5 rounded uppercase tracking-wider">Prototype</span>
+                <span class="text-slate-300">Engineered by <strong class="text-white">Version Engineering Evolution Digital</strong> <span class="text-slate-400">(Reg: DeepCore Industrial)</span></span>
+            </div>
+
+            <!-- Instant 1-Click Role Switcher for Easy Demos -->
+            <div class="flex flex-wrap items-center justify-center gap-1.5 text-xs">
+                <span class="text-slate-400 font-semibold mr-1 hidden sm:inline"><i class="fa-solid fa-wand-magic-sparkles text-brandGold mr-1"></i>Demo Mode:</span>
+                <button onclick="switchView('public-home')" id="btn-demo-public" class="demo-tab bg-brandGold text-brandDark font-bold px-3 py-1.5 rounded-lg transition">
+                    <i class="fa-solid fa-globe mr-1"></i>Public Website
+                </button>
+                <button onclick="switchRole('parent')" id="btn-demo-parent" class="demo-tab bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-3 py-1.5 rounded-lg transition">
+                    <i class="fa-solid fa-children mr-1 text-blue-400"></i>Parent / Learner Portal
+                </button>
+                <button onclick="switchRole('teacher')" id="btn-demo-teacher" class="demo-tab bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-3 py-1.5 rounded-lg transition">
+                    <i class="fa-solid fa-chalkboard-user mr-1 text-emerald-400"></i>Staff: Teacher Portal
+                </button>
+                <button onclick="switchRole('gradehead')" id="btn-demo-gradehead" class="demo-tab bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-3 py-1.5 rounded-lg transition">
+                    <i class="fa-solid fa-user-tie mr-1 text-purple-400"></i>Staff: Grade Head & Finance
+                </button>
+            </div>
+        </div>
     </div>
 
-    <!-- Navigation Header -->
-    <header class="bg-brandDark text-white sticky top-0 z-50 shadow-md">
+    <!-- School Announcement Bar -->
+    <div class="bg-brandGold text-brandDark text-xs md:text-sm font-semibold py-2 px-4 text-center">
+        <i class="fa-solid fa-bullhorn mr-2"></i> Early close this Friday: Term handover assembly at 12:00. All Grade R – 7 learners to be collected by 13:00.
+    </div>
+
+    <!-- School Navigation Header -->
+    <header class="bg-brandDark text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <!-- School Logo & Name -->
             <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('public-home')">
-                <div class="bg-brandGold text-brandDark p-2 rounded-lg font-bold text-xl flex items-center justify-center w-10 h-10 shadow">
-                    PV
+                <div class="bg-brandGold text-brandDark p-2 rounded-lg font-extrabold text-xl flex items-center justify-center w-11 h-11 shadow">
+                    PVP
                 </div>
                 <div>
                     <h1 class="font-bold text-lg tracking-tight leading-none">Platinum Village</h1>
-                    <span class="text-xs text-brandGold tracking-wider uppercase font-medium">Secondary School</span>
+                    <span class="text-xs text-brandGold tracking-wider uppercase font-semibold">Primary School</span>
                 </div>
             </div>
 
-            <!-- Navigation Links -->
+            <!-- Public Website Navigation Links -->
             <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
                 <button onclick="switchView('public-home')" class="hover:text-brandGold transition">Home</button>
                 <button onclick="switchView('public-about')" class="hover:text-brandGold transition">About</button>
                 <button onclick="switchView('public-admissions')" class="hover:text-brandGold transition">Admissions</button>
-                <button onclick="switchView('public-events')" class="hover:text-brandGold transition">Events</button>
+                <button onclick="switchView('public-events')" class="hover:text-brandGold transition">Events & Trips</button>
                 <button onclick="switchView('public-contact')" class="hover:text-brandGold transition">Contact</button>
             </nav>
 
-            <!-- Portal Login Switcher Button -->
-            <div class="flex items-center space-x-3">
-                <div class="relative">
-                    <button onclick="togglePortalMenu()" class="bg-brandGold hover:bg-brandGoldHover text-brandDark font-bold px-4 py-2 rounded-lg text-sm shadow transition flex items-center space-x-2">
-                        <i class="fa-solid fa-user-shield"></i>
-                        <span>Portal Login</span>
-                        <i class="fa-solid fa-chevron-down text-xs"></i>
+            <!-- Portal Login Dropdown -->
+            <div class="relative">
+                <button onclick="togglePortalMenu()" class="bg-brandGold hover:bg-brandGoldHover text-brandDark font-bold px-4 py-2.5 rounded-lg text-sm shadow transition flex items-center space-x-2">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Portal Login</span>
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </button>
+                <div id="portal-dropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl py-2 text-slate-800 z-50 border border-slate-100">
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider">Choose Portal Role</div>
+                    <button onclick="switchRole('parent')" class="w-full text-left px-4 py-2.5 hover:bg-slate-100 text-sm flex items-center space-x-3">
+                        <i class="fa-solid fa-children text-blue-600 w-5"></i>
+                        <div>
+                            <div class="font-bold">Parent & Learner</div>
+                            <div class="text-xs text-slate-400">Fees, Timetable, Quizzes</div>
+                        </div>
                     </button>
-                    <!-- Role Dropdown -->
-                    <div id="portal-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl py-2 text-slate-800 z-50 border border-slate-100">
-                        <div class="px-4 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Select Demo Role</div>
-                        <button onclick="switchRole('parent')" class="w-full text-left px-4 py-2.5 hover:bg-slate-100 text-sm flex items-center space-x-2">
-                            <i class="fa-solid fa-user-tag text-blue-600 w-5"></i><span>Parent / Student Portal</span>
-                        </button>
-                        <button onclick="switchRole('teacher')" class="w-full text-left px-4 py-2.5 hover:bg-slate-100 text-sm flex items-center space-x-2">
-                            <i class="fa-solid fa-chalkboard-user text-emerald-600 w-5"></i><span>Teacher Portal</span>
-                        </button>
-                        <button onclick="switchRole('gradehead')" class="w-full text-left px-4 py-2.5 hover:bg-slate-100 text-sm flex items-center space-x-2">
-                            <i class="fa-solid fa-user-gear text-purple-600 w-5"></i><span>Grade Head / Admin</span>
-                        </button>
-                        <div class="border-t border-slate-100 my-1"></div>
-                        <button onclick="switchView('public-home')" class="w-full text-left px-4 py-2 hover:text-red-600 text-sm flex items-center space-x-2">
-                            <i class="fa-solid fa-globe w-5"></i><span>View Public Website</span>
-                        </button>
-                    </div>
+                    <button onclick="switchRole('teacher')" class="w-full text-left px-4 py-2.5 hover:bg-slate-100 text-sm flex items-center space-x-3">
+                        <i class="fa-solid fa-chalkboard-user text-emerald-600 w-5"></i>
+                        <div>
+                            <div class="font-bold">Teacher Portal (Staff)</div>
+                            <div class="text-xs text-slate-400">Upload Scopes, Exams & Quizzes</div>
+                        </div>
+                    </button>
+                    <button onclick="switchRole('gradehead')" class="w-full text-left px-4 py-2.5 hover:bg-slate-100 text-sm flex items-center space-x-3">
+                        <i class="fa-solid fa-user-tie text-purple-600 w-5"></i>
+                        <div>
+                            <div class="font-bold">Grade Head & Finance (Staff)</div>
+                            <div class="text-xs text-slate-400">Learner Fee Balances & Oversight</div>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- MAIN DYNAMIC CONTENT CONTAINER -->
+    <!-- MAIN CONTENT CONTAINER -->
     <main class="flex-grow">
 
         <!-- ================= 1. PUBLIC HOME VIEW ================= -->
         <section id="view-public-home" class="public-view">
             <!-- Hero Section -->
-            <div class="relative bg-brandDark text-white py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-                <div class="absolute inset-0 opacity-25 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                <div class="max-w-4xl mx-auto text-center relative z-10">
-                    <span class="bg-brandGold/20 text-brandGold text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">In Pursuit of Excellence</span>
-                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mt-4 mb-6">Empowering Learners. Building Futures.</h1>
-                    <p class="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl mx-auto">A proud public secondary school serving the Platinum Village and Freedom Park community in Rustenburg.</p>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <button onclick="switchView('public-admissions')" class="bg-brandGold hover:bg-brandGoldHover text-brandDark font-bold px-6 py-3 rounded-xl shadow-lg transition">Start an Application</button>
-                        <button onclick="switchRole('parent')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-6 py-3 rounded-xl transition">Parent & Student Portal</button>
+            <div class="relative bg-brandDark text-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+                <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="max-w-5xl mx-auto text-center relative z-10">
+                    <span class="bg-brandGold/20 text-brandGold text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Grade R – Grade 7 • In Pursuit of Excellence</span>
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mt-4 mb-6">Empowering Young Learners. <span class="text-brandGold">Building Futures.</span></h1>
+                    <p class="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl mx-auto">A proud public primary school serving the Platinum Village and Freedom Park community in Rustenburg.</p>
+                    
+                    <!-- Direct Portal Shortcuts on Hero -->
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <button onclick="switchView('public-admissions')" class="bg-brandGold hover:bg-brandGoldHover text-brandDark font-bold px-6 py-3 rounded-xl shadow-lg transition">
+                            Start Grade R–7 Application &rarr;
+                        </button>
+                        <button onclick="switchRole('parent')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-5 py-3 rounded-xl transition flex items-center space-x-2">
+                            <i class="fa-solid fa-children text-brandGold"></i><span>Parent & Learner Portal</span>
+                        </button>
+                        <button onclick="switchRole('gradehead')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-5 py-3 rounded-xl transition flex items-center space-x-2">
+                            <i class="fa-solid fa-user-tie text-emerald-400"></i><span>Staff & Grade Head Portal</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Features Cards -->
+            <!-- Quick Action Cards -->
             <div class="max-w-7xl mx-auto px-4 -mt-10 relative z-20 mb-16">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hover:shadow-2xl transition">
-                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-graduation-cap"></i></div>
                         <h3 class="font-bold text-lg mb-1">Apply for 2027</h3>
-                        <p class="text-slate-500 text-sm mb-4">Start your application and take the next step toward joining our school community.</p>
-                        <button onclick="switchView('public-admissions')" class="text-brandBlue font-semibold text-sm hover:underline">Explore &rarr;</button>
+                        <p class="text-slate-500 text-sm mb-4">Enrol your child for Grade R to Grade 7 for the upcoming academic year.</p>
+                        <button onclick="switchView('public-admissions')" class="text-brandBlue font-semibold text-sm hover:underline">Start Application &rarr;</button>
                     </div>
                     <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hover:shadow-2xl transition">
-                        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold"><i class="fa-solid fa-calendar-days"></i></div>
-                        <h3 class="font-bold text-lg mb-1">Term Calendar</h3>
-                        <p class="text-slate-500 text-sm mb-4">Stay up to date with important school dates, activities and upcoming events.</p>
-                        <button onclick="switchView('public-events')" class="text-brandBlue font-semibold text-sm hover:underline">Explore &rarr;</button>
+                        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-bus"></i></div>
+                        <h3 class="font-bold text-lg mb-1">Excursions & Calendar</h3>
+                        <p class="text-slate-500 text-sm mb-4">View upcoming school trips, sports days, and parent meetings.</p>
+                        <button onclick="switchView('public-events')" class="text-brandBlue font-semibold text-sm hover:underline">View Dates &rarr;</button>
                     </div>
                     <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hover:shadow-2xl transition">
-                        <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold"><i class="fa-solid fa-file-circle-exclamation"></i></div>
-                        <h3 class="font-bold text-lg mb-1">Report an Absence</h3>
-                        <p class="text-slate-500 text-sm mb-4">Quickly notify the school when a learner is unable to attend.</p>
-                        <button onclick="switchRole('parent')" class="text-brandBlue font-semibold text-sm hover:underline">Explore &rarr;</button>
+                        <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-wallet"></i></div>
+                        <h3 class="font-bold text-lg mb-1">Fees & Learner Portal</h3>
+                        <p class="text-slate-500 text-sm mb-4">Check school fee balances, timetables, scopes, and practice quizzes.</p>
+                        <button onclick="switchRole('parent')" class="text-brandBlue font-semibold text-sm hover:underline">Open Portal &rarr;</button>
                     </div>
                     <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hover:shadow-2xl transition">
-                        <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold"><i class="fa-solid fa-shirt"></i></div>
-                        <h3 class="font-bold text-lg mb-1">Uniform Shop</h3>
-                        <p class="text-slate-500 text-sm mb-4">View and access the school uniform store for learners and families.</p>
-                        <button onclick="switchView('public-home')" class="text-brandBlue font-semibold text-sm hover:underline">Explore &rarr;</button>
+                        <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-chalkboard-user"></i></div>
+                        <h3 class="font-bold text-lg mb-1">Staff & Grade Heads</h3>
+                        <p class="text-slate-500 text-sm mb-4">Upload class scopes/exams or review student fee balances and records.</p>
+                        <button onclick="switchRole('teacher')" class="text-brandBlue font-semibold text-sm hover:underline">Staff Access &rarr;</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Principal Message & Upcoming Events -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <!-- Principal Message & Events -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-2 space-y-8">
                     <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                        <span class="text-xs font-bold text-brandGold uppercase tracking-wider">Leadership</span>
+                        <span class="text-xs font-bold text-brandGold uppercase tracking-wider">School Leadership</span>
                         <h2 class="text-2xl font-bold text-brandDark mt-1 mb-4">A Message from the Principal</h2>
                         <blockquote class="text-slate-600 italic border-l-4 border-brandGold pl-4 my-4">
-                            "Welcome to Platinum Village Secondary School. As a school built to serve the growing Platinum Village and Freedom Park community, we remain committed to giving every learner the tools to succeed academically, socially, and personally, in pursuit of excellence."
+                            "Welcome to Platinum Village Primary School. As a foundational pillar serving the growing Platinum Village and Freedom Park community, we remain committed to giving every young learner from Grade R to Grade 7 the literacy, numeracy, and life skills to thrive."
                         </blockquote>
-                        <p class="font-bold text-sm text-brandDark">— Ms. Molokoli Patty, Principal</p>
+                        <p class="font-bold text-sm text-brandDark">— School Principal, Platinum Village Primary School</p>
                     </div>
 
-                    <!-- Upcoming Events Table Preview -->
                     <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-xl font-bold text-brandDark">Upcoming Events</h2>
-                            <button onclick="switchView('public-events')" class="text-brandBlue text-sm font-semibold hover:underline">View full calendar &rarr;</button>
+                            <h2 class="text-xl font-bold text-brandDark">Upcoming Primary Events & Excursions</h2>
+                            <button onclick="switchView('public-events')" class="text-brandBlue text-sm font-semibold hover:underline">Full Calendar &rarr;</button>
                         </div>
                         <div class="space-y-4">
                             <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
                                 <div class="flex items-center space-x-4">
                                     <div class="bg-brandGold/20 text-brandDark font-bold px-3 py-2 rounded-lg text-center text-xs">02 <br>Sep</div>
-                                    <div><h4 class="font-bold text-sm">Grade 12 Trial Exams Begin</h4><span class="text-xs text-slate-500">Academic</span></div>
+                                    <div><h4 class="font-bold text-sm">Grade 4 – 7 Term 3 Assessments Begin</h4><span class="text-xs text-slate-500">Academic</span></div>
                                 </div>
                                 <span class="text-xs font-semibold text-slate-600 bg-white px-3 py-1 rounded border">08:00</span>
                             </div>
                             <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
                                 <div class="flex items-center space-x-4">
-                                    <div class="bg-brandGold/20 text-brandDark font-bold px-3 py-2 rounded-lg text-center text-xs">10 <br>Sep</div>
-                                    <div><h4 class="font-bold text-sm">Sports Day</h4><span class="text-xs text-slate-500">Sport & Culture</span></div>
+                                    <div class="bg-brandGold/20 text-brandDark font-bold px-3 py-2 rounded-lg text-center text-xs">14 <br>Sep</div>
+                                    <div><h4 class="font-bold text-sm">Annual School Excursion (Educational Trip)</h4><span class="text-xs text-emerald-600 font-semibold">Excursion / Trip</span></div>
                                 </div>
-                                <span class="text-xs font-semibold text-slate-600 bg-white px-3 py-1 rounded border">09:00</span>
+                                <span class="text-xs font-semibold text-slate-600 bg-white px-3 py-1 rounded border">07:30</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
+                                <div class="flex items-center space-x-4">
+                                    <div class="bg-brandGold/20 text-brandDark font-bold px-3 py-2 rounded-lg text-center text-xs">18 <br>Sep</div>
+                                    <div><h4 class="font-bold text-sm">Parent-Teacher Progress Meeting</h4><span class="text-xs text-slate-500">Parents</span></div>
+                                </div>
+                                <span class="text-xs font-semibold text-slate-600 bg-white px-3 py-1 rounded border">17:00</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sidebar / School Motto -->
+                <!-- Values Sidebar -->
                 <div class="space-y-6">
                     <div class="bg-brandDark text-white p-8 rounded-2xl shadow-lg">
-                        <h3 class="text-brandGold font-bold text-lg mb-2">School Motto</h3>
+                        <h3 class="text-brandGold font-bold text-lg mb-2">Our Primary Values</h3>
                         <p class="text-2xl font-extrabold mb-4">"Knowledge. Character. Community."</p>
-                        <p class="text-slate-300 text-sm">Discover a school community committed to building a stronger future for every learner.</p>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-brandGold"></i><span>Strong Foundation Phase (Grade R–3)</span></li>
+                            <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-brandGold"></i><span>Intermediate & Senior Phase (Grade 4–7)</span></li>
+                            <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-brandGold"></i><span>Safe, Nutritious & Supportive Campus</span></li>
+                        </ul>
                     </div>
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <h3 class="font-bold text-lg mb-4">Need Quick Assistance?</h3>
-                        <p class="text-sm text-slate-500 mb-4">Reach out to our school office for admissions, requirements or general inquiries.</p>
-                        <button onclick="switchView('public-contact')" class="w-full bg-brandDark hover:bg-slate-800 text-white font-semibold py-2.5 rounded-xl text-sm transition">Contact the School</button>
+                        <h3 class="font-bold text-lg mb-2">Need Quick Assistance?</h3>
+                        <p class="text-sm text-slate-500 mb-4">Contact our primary school administration office for enquiries or uniform details.</p>
+                        <button onclick="switchView('public-contact')" class="w-full bg-brandDark hover:bg-slate-800 text-white font-semibold py-2.5 rounded-xl text-sm transition">Contact Administration</button>
                     </div>
                 </div>
             </div>
@@ -188,20 +240,24 @@
 
         <!-- ================= 2. PUBLIC ABOUT VIEW ================= -->
         <section id="view-public-about" class="public-view hidden py-16 px-4 max-w-7xl mx-auto">
-            <h2 class="text-3xl font-extrabold text-brandDark mb-4">About Platinum Village Secondary</h2>
-            <p class="text-slate-600 mb-8 max-w-3xl">Established in 2016, we are a proud public secondary school in Rustenburg, providing quality education to learners from Grade 8 to 12.</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <h2 class="text-3xl font-extrabold text-brandDark mb-4">About Platinum Village Primary School</h2>
+            <p class="text-slate-600 mb-8 max-w-3xl">We are a dedicated public primary school in Rustenburg, nurturing young minds from Grade R through Grade 7 across Foundation, Intermediate, and Senior Primary phases.</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                 <div class="bg-white p-6 rounded-xl border shadow-sm text-center">
-                    <span class="text-3xl font-black text-brandGold">1,000+</span>
-                    <p class="text-slate-500 text-sm mt-1">Enrolled Learners</p>
+                    <span class="text-3xl font-black text-brandDark">Grade R–7</span>
+                    <p class="text-slate-500 text-sm mt-1">Primary Phases Served</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl border shadow-sm text-center">
-                    <span class="text-3xl font-black text-brandBlue">28</span>
-                    <p class="text-slate-500 text-sm mt-1">Dedicated Teachers</p>
+                    <span class="text-3xl font-black text-brandGold">950+</span>
+                    <p class="text-slate-500 text-sm mt-1">Enrolled Primary Learners</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl border shadow-sm text-center">
-                    <span class="text-3xl font-black text-emerald-600">10</span>
-                    <p class="text-slate-500 text-sm mt-1">Years of Excellence</p>
+                    <span class="text-3xl font-black text-brandBlue">32</span>
+                    <p class="text-slate-500 text-sm mt-1">Qualified Educators</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border shadow-sm text-center">
+                    <span class="text-3xl font-black text-emerald-600">100%</span>
+                    <p class="text-slate-500 text-sm mt-1">Community Focused</p>
                 </div>
             </div>
         </section>
@@ -209,246 +265,495 @@
         <!-- ================= 3. PUBLIC ADMISSIONS VIEW ================= -->
         <section id="view-public-admissions" class="public-view hidden py-16 px-4 max-w-7xl mx-auto">
             <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 max-w-4xl mx-auto">
-                <h2 class="text-3xl font-extrabold text-brandDark mb-2">Admissions for 2027</h2>
-                <p class="text-slate-600 mb-8">Complete the details below to begin your learner application.</p>
+                <h2 class="text-3xl font-extrabold text-brandDark mb-2">Primary School Admissions (2027)</h2>
+                <p class="text-slate-600 mb-8">Complete the form below to apply for Grade R to Grade 7 placement at Platinum Village Primary.</p>
                 <form onsubmit="handleApplication(event)" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-semibold mb-2">Student Full Name</label>
-                            <input type="text" required placeholder="Enter student's full name" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-brandGold">
+                            <label class="block text-sm font-semibold mb-2">Learner Full Name</label>
+                            <input type="text" required placeholder="Enter child's full name" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-brandGold">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold mb-2">Parent / Guardian Name</label>
                             <input type="text" required placeholder="Enter parent or guardian name" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-brandGold">
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold mb-2">Grade Applying For</label>
+                            <label class="block text-sm font-semibold mb-2">Primary Grade Applying For</label>
                             <select class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-brandGold">
-                                <option>Grade 8</option>
-                                <option>Grade 9</option>
-                                <option>Grade 10</option>
-                                <option>Grade 11</option>
+                                <option>Grade R (Foundation Phase)</option>
+                                <option>Grade 1</option>
+                                <option>Grade 2</option>
+                                <option>Grade 3</option>
+                                <option>Grade 4 (Intermediate Phase)</option>
+                                <option>Grade 5</option>
+                                <option>Grade 6</option>
+                                <option>Grade 7 (Senior Primary)</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold mb-2">Phone Number</label>
+                            <label class="block text-sm font-semibold mb-2">Parent Contact Number</label>
                             <input type="tel" required placeholder="082 123 4567" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-brandGold">
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-brandDark hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition shadow-lg">Submit Application</button>
+                    <button type="submit" class="w-full bg-brandDark hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition shadow-lg">Submit Primary Application</button>
                 </form>
             </div>
         </section>
 
-        <!-- ================= 4. PUBLIC EVENTS VIEW ================= -->
+        <!-- ================= 4. PUBLIC EVENTS & EXCURSIONS VIEW ================= -->
         <section id="view-public-events" class="public-view hidden py-16 px-4 max-w-5xl mx-auto">
-            <h2 class="text-3xl font-extrabold text-brandDark mb-2">Events & School Calendar</h2>
-            <p class="text-slate-600 mb-8">Stay up to date with academic, sporting, and community events.</p>
+            <h2 class="text-3xl font-extrabold text-brandDark mb-2">Term Calendar, Meetings & Excursions</h2>
+            <p class="text-slate-600 mb-8">Keep track of primary school excursions (trips), parent meetings, and test weeks.</p>
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 space-y-4">
                 <div class="flex items-center justify-between p-4 border-b">
-                    <div><span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">02 Sep 2026</span><h4 class="font-bold text-lg mt-1">Grade 12 Trial Exams Begin</h4></div>
+                    <div><span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">02 Sep 2026</span><h4 class="font-bold text-lg mt-1">Grade 4 – 7 Term 3 Assessments Begin</h4></div>
                     <span class="text-sm font-semibold text-slate-500">08:00</span>
                 </div>
                 <div class="flex items-center justify-between p-4 border-b">
-                    <div><span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">10 Sep 2026</span><h4 class="font-bold text-lg mt-1">Sports Day</h4></div>
-                    <span class="text-sm font-semibold text-slate-500">09:00</span>
+                    <div><span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">14 Sep 2026 • Excursion</span><h4 class="font-bold text-lg mt-1">Primary School Educational Excursion (Trip)</h4></div>
+                    <span class="text-sm font-semibold text-slate-500">07:30</span>
                 </div>
                 <div class="flex items-center justify-between p-4 border-b">
-                    <div><span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">18 Sep 2026</span><h4 class="font-bold text-lg mt-1">Parent-Teacher Meeting</h4></div>
+                    <div><span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">18 Sep 2026 • Meeting</span><h4 class="font-bold text-lg mt-1">Parent-Teacher Consultation Meeting</h4></div>
                     <span class="text-sm font-semibold text-slate-500">17:00</span>
+                </div>
+                <div class="flex items-center justify-between p-4">
+                    <div><span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">25 Sep 2026</span><h4 class="font-bold text-lg mt-1">Heritage & Cultural Day Celebration</h4></div>
+                    <span class="text-sm font-semibold text-slate-500">09:00</span>
                 </div>
             </div>
         </section>
 
         <!-- ================= 5. PUBLIC CONTACT VIEW ================= -->
         <section id="view-public-contact" class="public-view hidden py-16 px-4 max-w-5xl mx-auto">
-            <h2 class="text-3xl font-extrabold text-brandDark mb-2">Contact Us</h2>
-            <p class="text-slate-600 mb-8">We're here to help. Reach out for enquiries, admissions, or general support.</p>
+            <h2 class="text-3xl font-extrabold text-brandDark mb-2">Contact Platinum Village Primary</h2>
+            <p class="text-slate-600 mb-8">Reach out to our school office for enquiries, admissions assistance, and general information.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-4">
-                    <h3 class="font-bold text-xl text-brandDark">School Address</h3>
+                    <h3 class="font-bold text-xl text-brandDark">Primary School Address</h3>
                     <p class="text-slate-600 text-sm">Corner Agate & Amethyst Ave<br>Platinum Village, Freedom Park<br>Rustenburg, 0308</p>
                     <h3 class="font-bold text-xl text-brandDark pt-4">Office Hours</h3>
-                    <p class="text-slate-600 text-sm">Monday – Friday: 07:30 – 15:30<br>Saturday & Sunday: Closed</p>
+                    <p class="text-slate-600 text-sm">Monday – Friday: 07:30 – 15:00<br>Saturday & Sunday: Closed</p>
                 </div>
                 <div class="bg-brandDark text-white p-8 rounded-2xl shadow-lg flex flex-col justify-between">
                     <div>
-                        <h3 class="text-brandGold font-bold text-xl mb-2">Need a Faster Response?</h3>
-                        <p class="text-slate-300 text-sm mb-6">For urgent matters, WhatsApp can provide a faster way to reach the school.</p>
+                        <h3 class="text-brandGold font-bold text-xl mb-2">Fast Parent Support</h3>
+                        <p class="text-slate-300 text-sm mb-6">Need to report an absence or check excursion details quickly? Message the school office on WhatsApp.</p>
                     </div>
-                    <a href="https://wa.me/27605067054" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl text-center transition flex items-center justify-center space-x-2">
+                    <button onclick="alert('Opening School WhatsApp Line...')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl text-center transition flex items-center justify-center space-x-2">
                         <i class="fa-brands fa-whatsapp text-xl"></i><span>Chat on WhatsApp</span>
-                    </a>
+                    </button>
                 </div>
             </div>
         </section>
 
-        <!-- ================= 6. PARENT / STUDENT PORTAL ================= -->
+        <!-- ================= 6. PARENT / LEARNER PORTAL ================= -->
         <section id="portal-parent" class="portal-view hidden max-w-7xl mx-auto px-4 py-8">
-            <div class="bg-brandDark text-white p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <!-- Header Banner -->
+            <div class="bg-brandDark text-white p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-md">
                 <div>
-                    <span class="bg-brandGold text-brandDark text-xs font-bold px-3 py-1 rounded-full uppercase">Parent / Student Dashboard</span>
-                    <h2 class="text-2xl font-bold mt-2">Welcome back, Thabo Mokoena (Grade 11A)</h2>
-                    <p class="text-slate-300 text-sm">Platinum Village Secondary School • Student ID: PVS-2026-8891</p>
+                    <span class="bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Parent & Learner Portal</span>
+                    <h2 class="text-2xl font-bold mt-2">Learner: Lethabo Mokoena (Grade 6A)</h2>
+                    <p class="text-slate-300 text-sm">Parent Account: Mrs. K. Mokoena • Student ID: PVP-2026-0614</p>
                 </div>
-                <button onclick="switchView('public-home')" class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">Log Out</button>
-            </div>
-
-            <!-- Portal Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- School Fees Balance Card -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-bold text-slate-700">School Fees Status</h3>
-                        <i class="fa-solid fa-wallet text-brandGold text-xl"></i>
-                    </div>
-                    <div class="text-3xl font-extrabold text-brandDark mb-1">R 1,450.00</div>
-                    <span class="text-xs text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full font-semibold">Current Balance Due (Term 3)</span>
-                    <div class="mt-6 pt-4 border-t">
-                        <button onclick="alert('Redirecting to secure EFT / SnapScan payment gateway mockup.')" class="w-full bg-brandGold hover:bg-brandGoldHover text-brandDark font-bold py-2.5 rounded-xl text-sm transition shadow">Make a Payment</button>
-                    </div>
-                </div>
-
-                <!-- Meeting Reminders Card -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-bold text-slate-700">Meeting Reminders</h3>
-                        <i class="fa-solid fa-bell text-blue-600 text-xl"></i>
-                    </div>
-                    <div class="p-3 bg-blue-50 rounded-xl mb-3">
-                        <h4 class="font-bold text-sm text-blue-900">Parent-Teacher Meeting</h4>
-                        <p class="text-xs text-blue-700 mt-0.5">18 Sep 2026 at 17:00 • Hall B</p>
-                    </div>
-                    <button onclick="alert('Reminder saved to your device calendar!')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 rounded-xl text-xs transition">Add Reminder</button>
-                </div>
-
-                <!-- Timetable Access -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-bold text-slate-700">Class Timetable</h3>
-                        <i class="fa-solid fa-table-cells text-emerald-600 text-xl"></i>
-                    </div>
-                    <ul class="text-xs space-y-2 mb-4 text-slate-600">
-                        <li class="flex justify-between py-1 border-b"><span>08:00 - Mathematics</span><span class="font-bold">Mr. Moahloli</span></li>
-                        <li class="flex justify-between py-1 border-b"><span>09:30 - Physical Sciences</span><span class="font-bold">Ms. Hlongwane</span></li>
-                        <li class="flex justify-between py-1"><span>11:00 - English FAL</span><span class="font-bold">Mr. Dube</span></li>
-                    </ul>
-                    <button onclick="alert('Downloading full PDF timetable...')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 rounded-xl text-xs transition">Download Timetable PDF</button>
+                <div class="flex gap-2">
+                    <button onclick="switchRole('teacher')" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition">Switch to Teacher View</button>
+                    <button onclick="switchView('public-home')" class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">Log Out</button>
                 </div>
             </div>
 
-            <!-- Past Papers & Quizzes Section -->
-            <div class="mt-8 bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                <h3 class="font-bold text-xl text-brandDark mb-4"><i class="fa-solid fa-book-open text-brandGold mr-2"></i> Exam Quizzes & Past Papers</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    <div class="p-4 border rounded-xl hover:border-brandGold transition flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-sm">Maths Paper 1 (Nov 2025)</h4>
-                            <span class="text-xs text-slate-400">PDF • 2.4 MB</span>
-                        </div>
-                        <button onclick="alert('Downloading past paper...')" class="bg-brandDark text-white p-2 rounded-lg text-xs font-bold"><i class="fa-solid fa-download"></i></button>
-                    </div>
-                    <div class="p-4 border rounded-xl hover:border-brandGold transition flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-sm">Physical Sciences Scope</h4>
-                            <span class="text-xs text-slate-400">PDF • 1.1 MB</span>
-                        </div>
-                        <button onclick="alert('Downloading scope...')" class="bg-brandDark text-white p-2 rounded-lg text-xs font-bold"><i class="fa-solid fa-download"></i></button>
-                    </div>
-                    <div class="p-4 border rounded-xl hover:border-brandGold transition flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-sm">Term 3 Biology Quiz</h4>
-                            <span class="text-xs text-emerald-600 font-semibold">Interactive Quiz</span>
-                        </div>
-                        <button onclick="alert('Launching interactive quiz modal...')" class="bg-brandGold text-brandDark p-2 rounded-lg text-xs font-bold"><i class="fa-solid fa-play"></i></button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= 7. TEACHER PORTAL ================= -->
-        <section id="portal-teacher" class="portal-view hidden max-w-7xl mx-auto px-4 py-8">
-            <div class="bg-brandDark text-white p-6 rounded-2xl mb-8 flex justify-between items-center">
-                <div>
-                    <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Teacher Portal</span>
-                    <h2 class="text-2xl font-bold mt-2">Mr. S. Moahloli (Mathematics Department)</h2>
-                    <p class="text-slate-300 text-sm">Upload exams, scopes, and manage class resources.</p>
-                </div>
-                <button onclick="switchView('public-home')" class="bg-white/10 hover:bg-white/25 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">Log Out</button>
-            </div>
-
-            <!-- Teacher Upload Box -->
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 max-w-2xl mx-auto">
-                <h3 class="font-bold text-xl text-brandDark mb-4"><i class="fa-solid fa-cloud-arrow-up text-emerald-600 mr-2"></i> Upload Exam, Scope, or Assignment</h3>
-                <form onsubmit="handleTeacherUpload(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-semibold mb-1">Select Grade & Subject</label>
-                        <select class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none">
-                            <option>Grade 11 Mathematics - Term 3 Exam</option>
-                            <option>Grade 12 Mathematics - Trial Scope</option>
-                            <option>Grade 10 Mathematics - Assignment 2</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-1">Document File (PDF / Word)</label>
-                        <input type="file" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
-                    </div>
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow">Upload to Student Portal</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- ================= 8. GRADE HEAD / ADMIN PORTAL ================= -->
-        <section id="portal-gradehead" class="portal-view hidden max-w-7xl mx-auto px-4 py-8">
-            <div class="bg-brandDark text-white p-6 rounded-2xl mb-8 flex justify-between items-center">
-                <div>
-                    <span class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Grade Head / Admin Portal</span>
-                    <h2 class="text-2xl font-bold mt-2">Grade 11 Oversight Dashboard</h2>
-                    <p class="text-slate-300 text-sm">Monitor fee balances, teacher uploads, and attendance statistics across Grade 11 classes.</p>
-                </div>
-                <button onclick="switchView('public-home')" class="bg-white/10 hover:bg-white/25 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">Log Out</button>
-            </div>
-
+            <!-- Simple, Uncomplicated 3-Column Overview for Parents -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-xl border shadow-sm">
-                    <span class="text-slate-400 text-xs font-bold uppercase">Total Grade 11 Learners</span>
-                    <div class="text-3xl font-extrabold text-brandDark mt-1">248</div>
+                <!-- 1. School Fees & Excursion (Trip) Balance -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-slate-700">Fees & Excursion Balance</h3>
+                            <i class="fa-solid fa-wallet text-brandGold text-xl"></i>
+                        </div>
+                        <div class="text-3xl font-extrabold text-brandDark mb-2">R 850.00</div>
+                        <div class="space-y-1.5 text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border">
+                            <div class="flex justify-between"><span>Stationery & Maintenance Levy:</span><span class="font-bold">R 500.00</span></div>
+                            <div class="flex justify-between text-emerald-700"><span>Term 3 Excursion (Trip) Fee:</span><span class="font-bold">R 350.00</span></div>
+                        </div>
+                    </div>
+                    <button onclick="alert('Demo Payment Gateway: Paying R850.00 via Instant EFT / Card for Lethabo Mokoena (Grade 6A).')" class="mt-4 w-full bg-brandGold hover:bg-brandGoldHover text-brandDark font-bold py-2.5 rounded-xl text-sm transition shadow">
+                        Pay Balance / Trip Fee
+                    </button>
                 </div>
-                <div class="bg-white p-6 rounded-xl border shadow-sm">
-                    <span class="text-slate-400 text-xs font-bold uppercase">Outstanding Fees Total</span>
-                    <div class="text-3xl font-extrabold text-red-600 mt-1">R 84,200</div>
+
+                <!-- 2. Parent Meeting & Excursion Reminders -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-slate-700">Parent Reminders</h3>
+                            <i class="fa-solid fa-bell text-blue-600 text-xl"></i>
+                        </div>
+                        <div id="parent-reminders-list" class="space-y-2.5">
+                            <div class="p-3 bg-blue-50 border border-blue-100 rounded-xl">
+                                <span class="text-[10px] font-extrabold uppercase bg-blue-600 text-white px-2 py-0.5 rounded">Meeting Reminder</span>
+                                <h4 class="font-bold text-sm text-blue-950 mt-1">Grade 6 Parent-Teacher Meeting</h4>
+                                <p class="text-xs text-blue-700">18 Sep 2026 at 17:00 • Primary Assembly Hall</p>
+                            </div>
+                            <div class="p-3 bg-emerald-50 border border-emerald-100 rounded-xl">
+                                <span class="text-[10px] font-extrabold uppercase bg-emerald-600 text-white px-2 py-0.5 rounded">Excursion (Trip)</span>
+                                <h4 class="font-bold text-sm text-emerald-950 mt-1">Magaliesberg Nature Reserve Trip</h4>
+                                <p class="text-xs text-emerald-700">14 Sep 2026 • Consent slip & R350 due by 10 Sep</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="alert('Digital consent signed for Lethabo Mokoena!')" class="mt-4 w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs transition">
+                        <i class="fa-solid fa-signature mr-1"></i> Sign Excursion Consent Digital Slip
+                    </button>
                 </div>
-                <div class="bg-white p-6 rounded-xl border shadow-sm">
-                    <span class="text-slate-400 text-xs font-bold uppercase">Teacher Submissions</span>
-                    <div class="text-3xl font-extrabold text-emerald-600 mt-1">14 / 16</div>
+
+                <!-- 3. Class Timetable -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-slate-700">Grade 6A Timetable</h3>
+                            <i class="fa-solid fa-calendar-day text-emerald-600 text-xl"></i>
+                        </div>
+                        <ul class="text-xs space-y-2 text-slate-600">
+                            <li class="flex justify-between py-1.5 border-b"><span>08:00 – 09:00</span><span class="font-bold text-slate-800">Mathematics (Mr. Moahloli)</span></li>
+                            <li class="flex justify-between py-1.5 border-b"><span>09:00 – 10:00</span><span class="font-bold text-slate-800">Natural Sciences & Tech</span></li>
+                            <li class="flex justify-between py-1.5 border-b text-amber-600 font-semibold"><span>10:00 – 10:30</span><span>First Break (Feeding Scheme)</span></li>
+                            <li class="flex justify-between py-1.5 border-b"><span>10:30 – 11:30</span><span class="font-bold text-slate-800">English FAL (Ms. Dube)</span></li>
+                            <li class="flex justify-between py-1.5"><span>11:30 – 12:30</span><span class="font-bold text-slate-800">Social Sciences (History/Geo)</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="alert('Downloading Grade 6A Weekly Timetable PDF...')" class="mt-4 w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs transition">
+                        <i class="fa-solid fa-download mr-1"></i> Download Full Timetable PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Exam Scopes, Past Papers & Interactive Quizzes -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
+                    <div>
+                        <h3 class="font-bold text-xl text-brandDark"><i class="fa-solid fa-book-open-reader text-brandGold mr-2"></i>Exam Scopes, Past Papers & Interactive Quizzes</h3>
+                        <p class="text-xs text-slate-500 mt-1">Resources uploaded by teachers appear here automatically for learners to revise.</p>
+                    </div>
+                    <button onclick="openQuizModal()" class="bg-brandGold hover:bg-brandGoldHover text-brandDark font-bold px-4 py-2.5 rounded-xl text-xs shadow transition flex items-center space-x-2">
+                        <i class="fa-solid fa-gamepad"></i><span>Take Interactive Practice Quiz</span>
+                    </button>
+                </div>
+
+                <!-- Dynamic Resource Grid populated by JS -->
+                <div id="learner-resources-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+        </section>
+
+        <!-- ================= 7. STAFF: TEACHER PORTAL ================= -->
+        <section id="portal-teacher" class="portal-view hidden max-w-7xl mx-auto px-4 py-8">
+            <div class="bg-emerald-950 text-white p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-md">
+                <div>
+                    <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Staff Portal • Educator</span>
+                    <h2 class="text-2xl font-bold mt-2">Mr. S. Moahloli (Grade 4–7 Mathematics & Natural Sciences)</h2>
+                    <p class="text-emerald-200 text-sm">Upload exam scopes, past papers, and quizzes directly to learner portals.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="switchRole('gradehead')" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition">Switch to Grade Head / Finance View</button>
+                    <button onclick="switchView('public-home')" class="bg-white/10 hover:bg-white/25 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">Log Out</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left: Upload Exam, Scope or Quiz Form -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-brandDark mb-4"><i class="fa-solid fa-cloud-arrow-up text-emerald-600 mr-2"></i>Upload Scope, Exam or Quiz</h3>
+                    <form onsubmit="handleTeacherUpload(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Resource Title</label>
+                            <input id="upload-title" type="text" required placeholder="e.g. Grade 6 Fractions Exam Scope" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-emerald-600">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Primary Grade</label>
+                                <select id="upload-grade" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm">
+                                    <option value="Grade 4">Grade 4</option>
+                                    <option value="Grade 5">Grade 5</option>
+                                    <option value="Grade 6" selected>Grade 6</option>
+                                    <option value="Grade 7">Grade 7</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Resource Type</label>
+                                <select id="upload-type" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm">
+                                    <option value="Exam Scope">Exam Scope</option>
+                                    <option value="Past Paper">Past Paper</option>
+                                    <option value="Interactive Quiz">Interactive Quiz</option>
+                                    <option value="Worksheet">Worksheet</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Attach File (PDF / DOCX)</label>
+                            <input type="file" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm transition shadow">
+                            <i class="fa-solid fa-paper-plane mr-1"></i> Publish to Learner Portal
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right: Live Uploaded Resources Table -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-lg text-brandDark">Published Learning Resources (Grade 4–7)</h3>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 font-bold px-3 py-1 rounded-full">Synced with Student Portal</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="border-b text-xs uppercase text-slate-400">
+                                    <th class="py-3 px-2">Title</th>
+                                    <th class="py-3 px-2">Grade</th>
+                                    <th class="py-3 px-2">Type</th>
+                                    <th class="py-3 px-2">Grade Head Status</th>
+                                    <th class="py-3 px-2 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teacher-resources-tbody" class="divide-y text-slate-700"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 8. STAFF: GRADE HEAD & FINANCE PORTAL ================= -->
+        <section id="portal-gradehead" class="portal-view hidden max-w-7xl mx-auto px-4 py-8">
+            <div class="bg-purple-950 text-white p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-md">
+                <div>
+                    <span class="bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Staff Portal • Grade Head & Finance Admin</span>
+                    <h2 class="text-2xl font-bold mt-2">Ms. N. Sithole (Intermediate Phase Grade Head & Fee Admin)</h2>
+                    <p class="text-purple-200 text-sm">Inspect learner school fee balances, excursion payments, parent meeting reminders, and teacher scope submissions.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="switchRole('teacher')" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition">Switch to Teacher View</button>
+                    <button onclick="switchView('public-home')" class="bg-white/10 hover:bg-white/25 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">Log Out</button>
+                </div>
+            </div>
+
+            <!-- KPI Summary Row -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                    <span class="text-slate-400 text-xs font-bold uppercase">Intermediate Phase Learners</span>
+                    <div class="text-3xl font-extrabold text-brandDark mt-1">312</div>
+                    <span class="text-xs text-emerald-600 font-semibold">Grades 4 – 6</span>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                    <span class="text-slate-400 text-xs font-bold uppercase">Outstanding School Fees</span>
+                    <div class="text-3xl font-extrabold text-red-600 mt-1">R 42,850</div>
+                    <span class="text-xs text-slate-500">Across 64 learner accounts</span>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                    <span class="text-slate-400 text-xs font-bold uppercase">Excursion (Trip) Paid</span>
+                    <div class="text-3xl font-extrabold text-brandBlue mt-1">78%</div>
+                    <span class="text-xs text-slate-500">Magaliesberg Trip (R350/child)</span>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                    <span class="text-slate-400 text-xs font-bold uppercase">Teacher Scopes Approved</span>
+                    <div class="text-3xl font-extrabold text-purple-600 mt-1" id="gh-scope-count">4 / 4</div>
+                    <span class="text-xs text-slate-500">Term 3 Exam Readiness</span>
+                </div>
+            </div>
+
+            <!-- Staff Feature 1: Kids School Fees & Excursion Balance Lookup -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div>
+                        <h3 class="font-bold text-xl text-brandDark"><i class="fa-solid fa-file-invoice-dollar text-brandGold mr-2"></i>Staff View: Learner School Fees & Excursion Balances</h3>
+                        <p class="text-xs text-slate-500">Search any child to check their fee balance, excursion payment status, or send a parent payment/meeting reminder.</p>
+                    </div>
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <input id="staff-fee-search" oninput="renderStaffFeeTable()" type="text" placeholder="Search learner or grade..." class="px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-purple-600 w-full md:w-64">
+                        <button onclick="broadcastMeetingReminder()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2 rounded-xl text-xs whitespace-nowrap transition shadow">
+                            <i class="fa-solid fa-bullhorn mr-1"></i> Remind All Parents of Meeting
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b text-xs uppercase text-slate-400 bg-slate-50">
+                                <th class="py-3 px-4">Student ID</th>
+                                <th class="py-3 px-4">Learner Name</th>
+                                <th class="py-3 px-4">Grade</th>
+                                <th class="py-3 px-4">Parent / Guardian</th>
+                                <th class="py-3 px-4">Excursion (Trip)</th>
+                                <th class="py-3 px-4">Fees Balance</th>
+                                <th class="py-3 px-4 text-right">Staff Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staff-fees-tbody" class="divide-y text-slate-700"></tbody>
+                    </table>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
+    <!-- ================= INTERACTIVE QUIZ MODAL (DEMO FEATURE) ================= -->
+    <div id="quiz-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <div>
+                    <span class="text-xs font-bold text-brandGold uppercase">Grade 6 Practice Quiz</span>
+                    <h3 class="text-lg font-extrabold text-brandDark">Mathematics & Natural Sciences Revision</h3>
+                </div>
+                <button onclick="closeQuizModal()" class="text-slate-400 hover:text-slate-700 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-4 text-sm">
+                <div class="p-4 bg-slate-50 rounded-xl">
+                    <p class="font-bold text-slate-800 mb-2">1. What is 3/4 expressed as a percentage?</p>
+                    <div class="space-y-1.5">
+                        <label class="flex items-center space-x-2"><input type="radio" name="q1" value="wrong"><span>50%</span></label>
+                        <label class="flex items-center space-x-2"><input type="radio" name="q1" value="correct" checked><span>75%</span></label>
+                        <label class="flex items-center space-x-2"><input type="radio" name="q1" value="wrong"><span>25%</span></label>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl">
+                    <p class="font-bold text-slate-800 mb-2">2. Which process do green plants use to make their own food using sunlight?</p>
+                    <div class="space-y-1.5">
+                        <label class="flex items-center space-x-2"><input type="radio" name="q2" value="correct" checked><span>Photosynthesis</span></label>
+                        <label class="flex items-center space-x-2"><input type="radio" name="q2" value="wrong"><span>Condensation</span></label>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button onclick="closeQuizModal()" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-500 hover:bg-slate-100">Cancel</button>
+                <button onclick="submitQuiz()" class="bg-brandGold hover:bg-brandGoldHover text-brandDark font-bold px-5 py-2 rounded-xl text-sm shadow">Submit Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with Agency Claim -->
     <footer class="bg-brandDark text-white mt-16 py-12 text-center text-xs text-slate-400 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 space-y-4">
-            <p class="font-bold text-sm text-white">Platinum Village Secondary School</p>
-            <p>Corner Agate & Amethyst Ave, Platinum Village, Rustenburg, 1747 | Motto: Knowledge. Character. Community.</p>
-            <p>&copy; 2026 Platinum Village Secondary School. All rights reserved.</p>
+        <div class="max-w-7xl mx-auto px-4 space-y-3">
+            <p class="font-bold text-sm text-white">Platinum Village Primary School (Grade R – Grade 7)</p>
+            <p>Corner Agate & Amethyst Ave, Platinum Village, Rustenburg, 0308 | Motto: Knowledge. Character. Community.</p>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 text-slate-300">
+                Prototype Concept & Frontend Architecture Engineered by <strong class="text-brandGold">Version Engineering Evolution Digital</strong> (Registered as <strong class="text-white">DeepCore Industrial</strong>).
+            </div>
         </div>
     </footer>
 
-    <!-- JavaScript Controller -->
+    <!-- ================= CLIENT-SIDE INTERACTIVE STATE & LOGIC ================= -->
     <script>
+        // 1. Mock Database of Teacher Uploaded Resources (Scopes, Past Papers, Quizzes)
+        let schoolResources = [
+            { id: 1, title: 'Grade 6 Mathematics Term 3 Exam Scope', grade: 'Grade 6', type: 'Exam Scope', status: 'Approved by Grade Head' },
+            { id: 2, title: 'Grade 6 Natural Sciences Past Paper (2025)', grade: 'Grade 6', type: 'Past Paper', status: 'Approved by Grade Head' },
+            { id: 3, title: 'Grade 6 Fractions & Decimals Quiz', grade: 'Grade 6', type: 'Interactive Quiz', status: 'Approved by Grade Head' },
+            { id: 4, title: 'Grade 7 EMS & History Revision Scope', grade: 'Grade 7', type: 'Exam Scope', status: 'Approved by Grade Head' }
+        ];
+
+        // 2. Mock Database of Learner School Fees & Excursion Balances for Staff Portal
+        const learnerFeeRecords = [
+            { id: 'PVP-2026-0614', name: 'Lethabo Mokoena', grade: 'Grade 6A', parent: 'Mrs. K. Mokoena (082 554 1920)', trip: 'Unpaid (R350)', balance: 850 },
+            { id: 'PVP-2026-0402', name: 'Amogelang Tau', grade: 'Grade 4B', parent: 'Mr. P. Tau (073 881 0042)', trip: 'Paid', balance: 0 },
+            { id: 'PVP-2026-0719', name: 'Oratile Khumalo', grade: 'Grade 7A', parent: 'Ms. Z. Khumalo (060 912 3341)', trip: 'Paid', balance: 1200 },
+            { id: 'PVP-2026-0511', name: 'Tshepiso Molefe', grade: 'Grade 5A', parent: 'Mr. B. Molefe (083 410 7782)', trip: 'Unpaid (R350)', balance: 650 },
+            { id: 'PVP-2026-0108', name: 'lerato Ndlovu', grade: 'Grade 1C', parent: 'Mrs. S. Ndlovu (071 209 4411)', trip: 'Paid', balance: 0 }
+        ];
+
+        // Render Functions
+        function renderResources() {
+            // Render in Learner Portal
+            const learnerGrid = document.getElementById('learner-resources-grid');
+            if (learnerGrid) {
+                learnerGrid.innerHTML = schoolResources.map(item => `
+                    <div class="p-4 border border-slate-200 rounded-xl hover:border-brandGold transition flex justify-between items-center bg-slate-50/50">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-brandDark text-brandGold">${item.grade} • ${item.type}</span>
+                            <h4 class="font-bold text-sm text-slate-800 mt-1.5">${item.title}</h4>
+                            <span class="text-xs text-emerald-600 font-medium">${item.status}</span>
+                        </div>
+                        <button onclick="${item.type === 'Interactive Quiz' ? 'openQuizModal()' : `alert('Downloading: ${item.title}')`}" class="bg-brandDark hover:bg-slate-800 text-white p-2.5 rounded-lg text-xs font-bold shadow">
+                            <i class="fa-solid ${item.type === 'Interactive Quiz' ? 'fa-play text-brandGold' : 'fa-download'}"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            // Render in Teacher Portal
+            const teacherTbody = document.getElementById('teacher-resources-tbody');
+            if (teacherTbody) {
+                teacherTbody.innerHTML = schoolResources.map(item => `
+                    <tr>
+                        <td class="py-3 px-2 font-semibold">${item.title}</td>
+                        <td class="py-3 px-2"><span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold">${item.grade}</span></td>
+                        <td class="py-3 px-2 text-xs">${item.type}</td>
+                        <td class="py-3 px-2"><span class="text-xs bg-emerald-50 text-emerald-700 font-semibold px-2 py-1 rounded">${item.status}</span></td>
+                        <td class="py-3 px-2 text-right">
+                            <button onclick="deleteResource(${item.id})" class="text-red-500 hover:text-red-700 text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Update Grade Head counter
+            const countEl = document.getElementById('gh-scope-count');
+            if (countEl) countEl.textContent = `${schoolResources.length} / ${schoolResources.length}`;
+        }
+
+        function renderStaffFeeTable() {
+            const search = (document.getElementById('staff-fee-search')?.value || '').toLowerCase();
+            const tbody = document.getElementById('staff-fees-tbody');
+            if (!tbody) return;
+
+            const filtered = learnerFeeRecords.filter(r =>
+                r.name.toLowerCase().includes(search) ||
+                r.grade.toLowerCase().includes(search) ||
+                r.id.toLowerCase().includes(search)
+            );
+
+            tbody.innerHTML = filtered.map(r => `
+                <tr class="hover:bg-slate-50">
+                    <td class="py-3 px-4 font-mono text-xs text-slate-500">${r.id}</td>
+                    <td class="py-3 px-4 font-bold text-slate-800">${r.name}</td>
+                    <td class="py-3 px-4"><span class="bg-slate-100 px-2.5 py-1 rounded-md text-xs font-semibold">${r.grade}</span></td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${r.parent}</td>
+                    <td class="py-3 px-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-full ${r.trip === 'Paid' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}">${r.trip}</span>
+                    </td>
+                    <td class="py-3 px-4 font-extrabold ${r.balance > 0 ? 'text-red-600' : 'text-emerald-600'}">
+                        R ${r.balance.toFixed(2)}
+                    </td>
+                    <td class="py-3 px-4 text-right">
+                        ${r.balance > 0
+                            ? `<button onclick="alert('SMS & WhatsApp Fee Statement sent to ${r.parent} for ${r.name} (Balance: R${r.balance}).')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition">Send Fee Reminder</button>`
+                            : `<span class="text-xs text-emerald-600 font-bold"><i class="fa-solid fa-circle-check mr-1"></i>Settled</span>`
+                        }
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Navigation & Role Switching
+        function highlightDemoTab(activeId) {
+            document.querySelectorAll('.demo-tab').forEach(btn => {
+                btn.className = 'demo-tab bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-3 py-1.5 rounded-lg transition';
+            });
+            const activeBtn = document.getElementById(activeId);
+            if (activeBtn) {
+                activeBtn.className = 'demo-tab bg-brandGold text-brandDark font-bold px-3 py-1.5 rounded-lg transition shadow';
+            }
+        }
+
         function switchView(viewId) {
-            // Hide all public views & portal views
             document.querySelectorAll('.public-view').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.portal-view').forEach(el => el.classList.add('hidden'));
-            
-            // Show target view
+
             const target = document.getElementById('view-' + viewId);
             if (target) {
                 target.classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+            highlightDemoTab('btn-demo-public');
             document.getElementById('portal-dropdown').classList.add('hidden');
         }
 
@@ -461,25 +766,77 @@
                 portalTarget.classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+            highlightDemoTab('btn-demo-' + role);
             document.getElementById('portal-dropdown').classList.add('hidden');
         }
 
         function togglePortalMenu() {
-            const dropdown = document.getElementById('portal-dropdown');
-            dropdown.classList.toggle('hidden');
+            document.getElementById('portal-dropdown').classList.toggle('hidden');
         }
 
+        // Interactive Actions
         function handleApplication(e) {
             e.preventDefault();
-            alert('Application submitted successfully! Reference number: PVS-2027-9941. You will receive an SMS update.');
+            alert('Primary School Application submitted! Reference: PVP-2027-4410.');
             e.target.reset();
         }
 
         function handleTeacherUpload(e) {
             e.preventDefault();
-            alert('Document uploaded successfully and published to student portals!');
+            const title = document.getElementById('upload-title').value;
+            const grade = document.getElementById('upload-grade').value;
+            const type = document.getElementById('upload-type').value;
+
+            schoolResources.unshift({
+                id: Date.now(),
+                title,
+                grade,
+                type,
+                status: 'Just Uploaded • Live'
+            });
+            renderResources();
             e.target.reset();
+            alert(`"${title}" has been published! Switch to the Parent/Learner Portal to see it live.`);
         }
+
+        function deleteResource(id) {
+            schoolResources = schoolResources.filter(r => r.id !== id);
+            renderResources();
+        }
+
+        function broadcastMeetingReminder() {
+            const list = document.getElementById('parent-reminders-list');
+            if (list) {
+                const newAlert = document.createElement('div');
+                newAlert.className = 'p-3 bg-purple-50 border border-purple-200 rounded-xl';
+                newAlert.innerHTML = `
+                    <span class="text-[10px] font-extrabold uppercase bg-purple-600 text-white px-2 py-0.5 rounded">New Broadcast from Grade Head</span>
+                    <h4 class="font-bold text-sm text-purple-950 mt-1">Urgent Parent Meeting & Fee Reminder</h4>
+                    <p class="text-xs text-purple-700">Please attend the Grade 4–7 Consultation on 18 Sep at 17:00.</p>
+                `;
+                list.prepend(newAlert);
+            }
+            alert('Meeting reminder broadcasted! It is now visible inside the Parent/Learner Portal.');
+        }
+
+        function openQuizModal() {
+            document.getElementById('quiz-modal').classList.remove('hidden');
+        }
+
+        function closeQuizModal() {
+            document.getElementById('quiz-modal').classList.add('hidden');
+        }
+
+        function submitQuiz() {
+            closeQuizModal();
+            alert('Quiz Completed! Score: 2 / 2 (100%). Great job!');
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderResources();
+            renderStaffFeeTable();
+        });
 
         // Close dropdown when clicking outside
         window.addEventListener('click', function(e) {
